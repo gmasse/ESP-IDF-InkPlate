@@ -26,6 +26,7 @@ Distributed as-is; no warranty is given.
 
 #include "battery.hpp"
 #include "eink.hpp"
+#include "eink_5_v2.hpp"
 #include "eink_6.hpp"
 #include "eink_6plus.hpp"
 #include "eink_6plus_v2.hpp"
@@ -66,7 +67,10 @@ Distributed as-is; no warranty is given.
     FrontLight   front_light(io_expander_int);
   #endif
 
-  #if INKPLATE_6
+  #if INKPLATE_5V2
+    IOExpander  io_expander_ext(0x21);
+    EInk5V2   e_ink(io_expander_int, io_expander_ext);
+  #elif INKPLATE_6
     EInk6     e_ink(io_expander_int);
   #elif INKPLATE_10
     IOExpander  io_expander_ext(0x22);
@@ -81,7 +85,7 @@ Distributed as-is; no warranty is given.
     IOExpander  io_expander_ext(0x21);
     EInk6FLICK e_ink(io_expander_int, io_expander_ext);    
   #else
-    #error "One of INKPLATE_6, INKPLATE_10, INKPLATE_6PLUS, INKPLATE_6PLUS_V2, INKPLATE_6FLICK must be defined."
+    #error "One of INKPLATE_5V2, INKPLATE_6, INKPLATE_10, INKPLATE_6PLUS, INKPLATE_6PLUS_V2, INKPLATE_6FLICK must be defined."
   #endif
   
   RTC       rtc(0x51);
@@ -98,7 +102,10 @@ Distributed as-is; no warranty is given.
     extern FrontLight   front_light;
   #endif
 
-  #if INKPLATE_6
+  #if INKPLATE_5V2
+    extern IOExpander  io_expander_ext;
+    extern EInk5V2   e_ink;
+  #elif INKPLATE_6
     extern EInk6     e_ink;
   #elif INKPLATE_10
     extern IOExpander  io_expander_ext;
@@ -113,7 +120,7 @@ Distributed as-is; no warranty is given.
     extern IOExpander  io_expander_ext;
     extern EInk6FLICK e_ink;
   #else
-    #error "One of INKPLATE_6, INKPLATE_10, INKPLATE_6PLUS, INKPLATE_6PLUS_V2, INKPLATE_6FLICK must be defined."
+    #error "One of INKPLATE_5V2, INKPLATE_6, INKPLATE_10, INKPLATE_6PLUS, INKPLATE_6PLUS_V2, INKPLATE_6FLICK must be defined."
   #endif
  
   extern RTC       rtc;
