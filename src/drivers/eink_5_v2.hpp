@@ -53,10 +53,7 @@ public:
     static const uint16_t WIDTH  = 1280; // In pixels
     static const uint16_t HEIGHT =  720; // In pixels
 
-    EInk5V2(IOExpander & io_expander_i, IOExpander & io_expander_e)
-      : EInk(io_expander_i, WIDTH), io_expander_ext(io_expander_e)
-
-      { }  // Private constructor
+    EInk5V2(IOExpander &io_expander) : EInk(io_expander, WIDTH) {}
 
     static const uint32_t BITMAP_SIZE_1BIT = (WIDTH * HEIGHT) >> 3;            // In bytes
     static const uint32_t BITMAP_SIZE_3BIT = ((uint32_t) WIDTH * HEIGHT) >> 1; // In bytes
@@ -89,8 +86,6 @@ public:
 
   private:
     static constexpr char const * TAG = "EInk5V2";
-
-    IOExpander & io_expander_ext;
 
     class FrameBuffer1BitX : public FrameBuffer1Bit {
       private:

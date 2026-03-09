@@ -68,8 +68,7 @@ Distributed as-is; no warranty is given.
   #endif
 
   #if INKPLATE_5V2
-    IOExpander  io_expander_ext(0x21);
-    EInk5V2   e_ink(io_expander_int, io_expander_ext);
+    EInk5V2   e_ink(io_expander_int);
   #elif INKPLATE_6
     EInk6     e_ink(io_expander_int);
   #elif INKPLATE_10

@@ -64,8 +64,6 @@ EInk5V2::setup()
     ESP_LOGD(TAG, "MCP initialized.");
   }
 
-  io_expander_ext.setup();
-
   Wire::enter();
 
   io_expander_int.set_direction(VCOM,         IOExpander::PinMode::OUTPUT);
@@ -90,7 +88,8 @@ EInk5V2::setup()
     0b00000000  // Power down delay (6mS per rail)
   };
 
-  ESP::delay(1);
+  //ESP::delay(1);
+  ESP::delay_microseconds(1800);
   wire_device->write(pgm, sizeof(pgm));
 
   ESP::delay(1);
@@ -98,21 +97,6 @@ EInk5V2::setup()
   wakeup_clear();
 
 
-  // Set all pins of seconds I/O expander to outputs, low.
-  // For some reason, it draw more current in deep sleep when pins are set as inputs...
-  /************* TODO *************
-    // Enable pull down resistors on SPI lines to reduce power consumption in deep sleep.
-    pinMode(12, INPUT_PULLDOWN);
-    pinMode(13, INPUT_PULLDOWN);
-    pinMode(14, INPUT_PULLDOWN);
-    pinMode(15, INPUT_PULLDOWN);  
-  **************/
-  //if (io_expander_ext.is_present()) {
-  //  for (int i = 0; i < 15; i++) {
-  //    io_expander_ext.set_direction((IOExpander::Pin) i, IOExpander::PinMode::OUTPUT);
-  //    io_expander_ext.digital_write((IOExpander::Pin) i, IOExpander::SignalLevel::LOW);
-  //  }
-  //}
 
   // For same reason, unused pins of first I/O expander have to be also set as outputs, low.
   io_expander_int.set_direction(IOExpander::Pin::IOPIN_11, IOExpander::PinMode::OUTPUT);
